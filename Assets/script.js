@@ -1,8 +1,10 @@
 var startButton = document.getElementById("start-btn");
-var questionContainer = document.getElementById("question-container");
+var questionContainer = document.getElementById("container");
 var questionElement = document.getElementById("question");
 var answerButtonsElement = document.getElementById("answer-buttons");
 var nextButton = document.getElementById("next-btn");
+var scoreElement = document.getElementById("score");
+var finalScore = 0;
 
 var shuffledQuestions, currentQuestionIndex;
 
@@ -23,6 +25,7 @@ function startGame() {
   console.log("Let the Quiz begin!");
   shuffledQuestions = questions.sort(() => Math.random() - 0.5);
   currentQuestionIndex = 0;
+  questionContainer.classList.remove("hide");
   setNextQuestion();
   countdown();
 }
@@ -35,17 +38,18 @@ function setNextQuestion(event) {
   return;
 }
 
-function showQuestion(question) {
-  questionElement.innerText = question.question;
-  question.answers.forEach((answer) => {
-    var button = document.createElement("button");
-    button.innerText = answer.text;
-    button.classList.add("btn");
-    if (answer.correct) {
+function showQuestion(questions) {
+  questionElement.textContent = questions.question;
+  questions.answers.forEach((answers) => {
+    const button = document.createElement("button");
+    button.textContent = answers.text;
+    button.classList.add("btn", "btn-primary", "btn-custom");
+    if (answers.correct) {
       button.dataset.correct = answers.correct;
     }
+
     button.addEventListener("click", selectAnswer);
-    answerButtonsElement.Element.appendChild(button);
+    answerButtonsElement.appendChild(button);
   });
 }
 
@@ -61,8 +65,8 @@ function resetState() {
 }
 
 function selectAnswer(e) {
-  var selectedButton = e.target;
-  var correct = selectedButton.dataset.correct;
+  const selectedButton = e.target;
+  const correct = selectedButton.dataset.correct;
   setStatusClass(document.body, correct);
   Array.from(answerButtonsElement.children).forEach((button) => {
     setStatusClass(button, button.dataset.correct);
@@ -76,6 +80,7 @@ function setStatusClass(element, correct) {
   clearStatusClass(element);
   if (correct) {
     element.classList.add("correct");
+    finalScore += 100;
   } else {
     element.classList.add("wrong");
   }
@@ -89,6 +94,10 @@ function clearStatusClass(element) {
 function endGame() {
   console.log("Game ending");
   nextButton.disabled = true;
+  nextButton.classList.add("hide");
+  // scoreElement.classList.remove("hide");
+  scoreElement.textContent = `Your score is: ${finalScore}`;
+  questionContainer.classList.add("hide");
   var initials = prompt("Type in your initials!!!");
   localStorage.setItem("Leaderboard:", JSON.stringify(initials));
 }
@@ -97,7 +106,7 @@ var timeEl = document.getElementById("time");
 var scoreEl = document.getElementById("last-high-score");
 
 function countdown() {
-  var secondsLeft = 60;
+  var secondsLeft = 30;
 
   var timeInterval = setInterval(function () {
     if (secondsLeft >= 1) {
@@ -118,6 +127,33 @@ var questions = [
       { text: "Cascading Sheet of Styles", correct: false },
       { text: "Circading Sleeping Sheets", correct: false },
       { text: "Common Style Sheet", correct: false },
+    ],
+  },
+  {
+    question: "Where does CSS go in HTML?",
+    answers: [
+      { text: "<script>", correct: false },
+      { text: "<div>", correct: false },
+      { text: "<link>", correct: true },
+      { text: "<stylesheet>", correct: false },
+    ],
+  },
+  {
+    question: "How do we capitalize letters in JavaScript?",
+    answers: [
+      { text: "fUnNyCaSe", correct: false },
+      { text: "camelCase", correct: true },
+      { text: "lowercase", correct: false },
+      { text: "UpperCase", correct: false },
+    ],
+  },
+  {
+    question: "How do we denote that we are targeting a class in CSS?",
+    answers: [
+      { text: "*", correct: false },
+      { text: "No mark", correct: false },
+      { text: "#", correct: false },
+      { text: ".", correct: true },
     ],
   },
 ];
