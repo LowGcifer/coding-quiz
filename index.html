@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="Assets/style.css" />
   </head>
   <body>
-    <h2 class="question">Code Quiz!</h2>
+    <h2 id="question">Code Quiz!</h2>
     <div class="container">
-      <div class="answer-container">
+      <div class="answer-container" id="answer-buttons">
         <button type="button" class="btn btn-primary btn-custom">
           Answer 1
         </button>
@@ -34,7 +34,21 @@
       <!-- <div class="controls"></div> -->
     </div>
     <div class="button-container">
-      <button type="button" class="btn btn-primary start-btn">Start</button>
+      <button type="button" id="start-btn" class="btn btn-primary">
+        Start
+      </button>
     </div>
+
+    <div class="button-container">
+      <button type="button" id="next-btn" class="btn btn-primary hide">
+        Next
+      </button>
+    </div>
+
+    <div id="answer-status">
+      <h2>Placeholder</h2>
+    </div>
+
+    <script src="./Assets/script.js"></script>
   </body>
 </html>
