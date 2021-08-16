@@ -100,6 +100,7 @@ function endGame() {
   questionContainer.classList.add("hide");
   var initials = prompt("Type in your initials!!!");
   localStorage.setItem("Leaderboard:", JSON.stringify(initials));
+  localStorage.setItem("Score:", JSON.stringify(finalScore));
 }
 
 var timeEl = document.getElementById("time");
